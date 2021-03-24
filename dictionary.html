@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Dictionary</title>
+  </head>
+  <body>
+    <h1>Dictionary</h1>
+    <label for="word-add">Add this word to the dictionary: </label>
+    <input type="add" id="word-add" name="word_add" aria-label="Add this word to the Dictionary">
+    <button onclick="addWord();">Add</button>
+    <p> 
+      <em> See all the words that have been added to the dictionary</em>
+      <button onclick="showAllWords();">Show</button> 
+    </p>
+    <p> 
+      <label for="word-search">Search this word in the dictionary: </label> 
+      <input type="search" id="word-search" name="word_search" aria-label="Search word">
+      <button onclick="showMessage();">Search</button> 
+    </p>
+    <script type="text/javascript">
+      var dictionary = [];
+      //this function returns the word that has been typed in the first label
+      function getAddedWord() {
+        var addedWord = document.getElementById("word-add").value;
+        return addedWord;
+      }
+      //this function adds the word to the Dictionary
+      function addWord() {
+        dictionary.push(getAddedWord());
+        alert("The word: " + getAddedWord() + " has been successfully added to the dictionary.");
+      }
+      //this function returns all the elements contained in the dictionary array
+      function getDictionary() {
+        return dictionary;
+      }
+      //this function shows all the elements contained in the dictionary array
+      function showAllWords() {
+        alert(dictionary);
+      }
+      //this function returns the word that has been typed in the second label
+      function getSearchedWord() {
+        var searchWord = document.getElementById("word-search").value;
+        return searchWord;
+      }
+      // this function returns: - true if the word typed in the second label is found in the dictionary
+      //                        - false otherwise
+      function belongsToDictionary() {
+        return dictionary.includes(getSearchedWord());
+      }
+      //this function informs the user whether the word that has been searched for is found in the dictionary or not
+      function showMessage() {
+        if (belongsToDictionary()) {
+          alert("The word you searched for is found in dictionary!");
+        } else {
+          alert("The word you searched for does not belong to the dictionary!");
+        }
+      }
+    </script>
+  </body>
+</html>
