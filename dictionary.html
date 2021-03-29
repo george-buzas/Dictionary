@@ -5,19 +5,32 @@
     <title>Dictionary</title>
   </head>
   <body>
-    <h1>Dictionary</h1>
-    <label for="word-add">Add this word to the dictionary: </label>
-    <input type="add" id="word-add" name="word_add" aria-label="Add this word to the Dictionary">
-    <button onclick="addWord();">Add</button>
-    <p> 
-      <em> See all the words that have been added to the dictionary</em>
-      <button onclick="showAllWords();">Show</button> 
-    </p>
-    <p> 
-      <label for="word-search">Search this word in the dictionary: </label> 
-      <input type="search" id="word-search" name="word_search" aria-label="Search word">
-      <button onclick="showMessage();">Search</button> 
-    </p>
+    <center>
+        <h1>Dictionary</h1>
+        <div class="container">
+            <div>
+              <label for="word-add">Add this word to the dictionary: </label>
+              <input type="add" id="word-add" name="word_add" aria-label="Add this word to the Dictionary">
+              <button onclick="addWord();">Add</button>
+            </div>
+              <span id="add-error"></span>
+            <div>
+              <p> 
+              <em> See all the words that have been added to the dictionary</em>
+              <button onclick="showAllWords();">Show</button> 
+              </p>
+            </div>
+              <span id="show-error"></span>
+            <div>
+                <p> 
+                  <label for="word-search">Search this word in the dictionary: </label> 
+                  <input type="search" id="word-search" name="word_search" aria-label="Search word">
+                  <button onclick="showMessage();">Search</button> 
+                </p>
+                <span id="search-error"></span>
+            </div>
+        </div>
+    </center>
     <script type="text/javascript">
       var dictionary = [];
       //this function returns the word that has been typed in the first label
@@ -27,8 +40,18 @@
       }
       //this function adds the word to the Dictionary
       function addWord() {
-        dictionary.push(getAddedWord());
-        alert("The word: " + getAddedWord() + " has been successfully added to the dictionary.");
+        var error = document.getElementById("add-error");
+        if (dictionary.includes(getAddedWord())) {
+          error.textContent = "You are not allowed to have duplicates in your dictionary.";
+          error.style.color = "orange";
+        } else if (isNaN(document.getElementById("word-add").value)) {
+          dictionary.push(getAddedWord());
+          error.textContent = "The word " + getAddedWord() +" has been successfully added to the dictionary.";
+          error.style.color = "green";
+        } else {
+          error.textContent = "You need to type a letter at least. The dictionary will not contain empty strings.";
+          error.style.color = "red";
+        }
       }
       //this function returns all the elements contained in the dictionary array
       function getDictionary() {
@@ -36,7 +59,14 @@
       }
       //this function shows all the elements contained in the dictionary array
       function showAllWords() {
-        alert(dictionary);
+        var error = document.getElementById("show-error");
+        if (isNaN(document.getElementById("word-search").value)) {
+            error.textContent = "The dictionary is empty. Please insert at least one word in the dictionary.";
+            error.style.color = "red";
+          } else {
+            error.textContent = dictionary;
+            error.style.color = "blue";
+          }
       }
       //this function returns the word that has been typed in the second label
       function getSearchedWord() {
@@ -50,10 +80,18 @@
       }
       //this function informs the user whether the word that has been searched for is found in the dictionary or not
       function showMessage() {
+        var error = document.getElementById("search-error");
         if (belongsToDictionary()) {
-          alert("The word you searched for is found in dictionary!");
+          error.textContent = "The word you searched for is not found in the dictionary";
+          error.style.color = "green";
         } else {
-          alert("The word you searched for does not belong to the dictionary!");
+          if (isNaN(document.getElementById("word-search").value)) {
+            error.textContent = "The word you searched for is not found in the dictionary";
+            error.style.color = "red";
+          } else {
+            error.textContent = "You need to type a letter at least. The dictionary does not contain empty strings.";
+            error.style.color = "orange";
+          }
         }
       }
     </script>
